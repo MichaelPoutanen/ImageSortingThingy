@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Avalonia.Controls;
 using Avalonia.Media;
 using ReactiveUI;
 
@@ -28,10 +29,19 @@ public partial class MainWindowViewModel : ViewModelBase
 
     #region Commands
 
+    private readonly Interaction<string?, string?> _selectDirectoryInteraction = new Interaction<string?, string?>();
+
+    public Interaction<string?, string?> SelectDirectoryInteraction => _selectDirectoryInteraction;
+    
     public ICommand SelectDirectoryCommand { get; }
 
     private void SelectDirectory()
     {
+        //var storage = window.StorageProvider;
+        //var topLevel = TopLevel.GetTopLevel(control);
+        
+        // OpenFolderDialog dialog = new OpenFolderDialog();
+        //string? result = await dialog.ShowAsync();
 
     }
 
