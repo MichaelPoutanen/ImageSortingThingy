@@ -12,9 +12,23 @@
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+    <Grid RowDefinitions="5,15,*,5" ColumnDefinitions="5,*,5">
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+            <!-- <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center" /> -->
+            <TextBlock Text="Image Browsy test view" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <!-- <controls:ImageFileListViewControl HorizontalAlignment="Center" VerticalAlignment="Center"/> -->
+        </StackPanel>
+        <Grid Grid.Row="2" Grid.Column="1" RowDefinitions="20,Auto,Auto,20" ColumnDefinitions="0.9*, 0.1*">
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Please select the path:" />
+            <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding CurrentDirectory}" />
+            <Button Grid.Row="1" Grid.Column="1" Margin="5,0,0,0" Content="Select" Command="{Binding SelectDirectoryCommand}" />
+            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
+                   Content="{Binding InfoLabelText}" 
+                   Foreground="{Binding InfoLabelBrush}"
+                   IsVisible="{Binding IsInfoLabelVisible}" />
+        </Grid>
+    </Grid>
 </Window>
