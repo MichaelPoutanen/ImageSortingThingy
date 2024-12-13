@@ -1,13 +1,21 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
+using CommunityToolkit.Mvvm.ComponentModel;
+using ImageSortingThingy.Helpers;
+using ImageSortingThingy.Models;
 using ReactiveUI;
 
 namespace ImageSortingThingy.ViewModels;
 
-public class ImageFileListViewModel : ViewModelBase
+public partial class ImageFileListViewModel : ViewModelBase
 {
     public ImageFileListViewModel()
     {
@@ -26,18 +34,62 @@ public class ImageFileListViewModel : ViewModelBase
         }
 
         SelectDirectoryCommand = ReactiveCommand.CreateFromTask(SelectDirectory);
+        ImagesInDirectorySelectedItem = new ImageFileListEntryModel();
     }
 
     #region Methods
 
     private async Task SelectDirectory()
     {
-        string? test = await _selectDirectoryInteraction.Handle("Test");
+        string? selectedDirectory = await _selectDirectoryInteraction.Handle("Test");
+
+        if (!string.IsNullOrEmpty(selectedDirectory))
+        {
+            if (Path.Exists(selectedDirectory))
+            {
+                CurrentDirectory = selectedDirectory;
+
+                if (SavePreviouslyUsedDirectory(selectedDirectory))
+                {
+                    _errorLevel = 1;
+                    InfoLabelText = "Successfully selected directory and saved for the next start.";
+                }
+                else
+                {
+                    _errorLevel = 0;
+                    InfoLabelText = "Successfully selected directory but couldnt save it for future use!";
+                }
+
+                LoadImages();
+            }
+            else
+            {
+                _errorLevel = 2;
+                InfoLabelText = "Directory does not seem exist.";
+            }
+        }
+        else
+        {
+            _errorLevel = 2;
+            InfoLabelText = "Your selection is not valid.";
+        }
+    }
+
+    private void LoadImages()
+    {
+        List<string> files = SearchImageFiles.GetAllImageFiles(CurrentDirectory).ToList();
+        Debugger.Break();
     }
 
     private static bool LoadPreviouslyUsedDirectory()
     {
         // Todo: This needs to be implemented
+        return false;
+    }
+
+    private static bool SavePreviouslyUsedDirectory(string directory)
+    {
+        //TODO: This needs to be implemented
         return false;
     }
 
@@ -69,15 +121,24 @@ public class ImageFileListViewModel : ViewModelBase
     #region Commands
 
     public ICommand SelectDirectoryCommand { get; }
-    
+
     private readonly Interaction<string?, string?> _selectDirectoryInteraction = new Interaction<string?, string?>();
 
     public Interaction<string?, string?> SelectDirectoryInteraction => _selectDirectoryInteraction;
-    
 
     #endregion
 
     #region Properties
+
+    private ObservableCollection<ImageFileListEntryModel> _imagesInDirectory = [];
+
+    public ObservableCollection<ImageFileListEntryModel> ImagesInDirectory
+    {
+        get => _imagesInDirectory;
+        set => SetProperty(ref _imagesInDirectory, value);
+    }
+
+    [ObservableProperty] public ImageFileListEntryModel _imagesInDirectorySelectedItem;
 
     private IBrush _infoLabelBrush = Brushes.Transparent;
 
