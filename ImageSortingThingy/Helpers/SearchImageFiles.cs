@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImageSortingThingy.Helpers;
 
@@ -29,11 +30,11 @@ public static class SearchImageFiles
     {
         List<string> filesFound = new List<string>();
         SearchOption searchOption = isRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-        foreach (var filter in filters)
+        foreach (string filter in filters)
         {
             filesFound.AddRange(Directory.GetFiles(searchFolder, $"*.{filter}", searchOption));
         }
 
-        return filesFound.ToArray();
+        return filesFound.Where(s => !s.ToLower().Contains("exclude")).ToArray();
     }
 }

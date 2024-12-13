@@ -34,15 +34,11 @@
                                 <TextBlock Text=" " />
                                 <TextBlock Text="{Binding FileId}" />
                             </StackPanel>
-                            <Image Margin="4" Height="200" Width="200" 
+                            <Image Margin="4"  
                                    Source="{Binding AbsolutePath, Converter={StaticResource FilePathToBitmapConverter}}"/>
                         </StackPanel>
                         </Border>
-                        <!-- <StackPanel Orientation="Horizontal"> -->
-                        <!--     <TextBlock Text="{Binding FileId}" /> -->
-                        <!--     <TextBlock Text="{Binding ImageCreatedDateTime}"/> -->
-                        <!--     <TextBlock Text="{Binding FileName}" /> -->
-                        <!-- </StackPanel> -->
+         
                     </DataTemplate>
                 </ListBox.ItemTemplate>
         </ListBox>
