@@ -5,10 +5,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ImageSortingThingy.Extensions;
 using ImageSortingThingy.Helpers;
 using ImageSortingThingy.Models;
 using ReactiveUI;
@@ -78,7 +80,12 @@ public partial class ImageFileListViewModel : ViewModelBase
     private void LoadImages()
     {
         List<string> files = SearchImageFiles.GetAllImageFiles(CurrentDirectory).ToList();
-        Debugger.Break();
+        int id = 0;
+        foreach (string s in files)
+        {
+            ImagesInDirectory.Add(s.ToImageFileListEntryModel(id));
+            id++;
+        }
     }
 
     private static bool LoadPreviouslyUsedDirectory()
