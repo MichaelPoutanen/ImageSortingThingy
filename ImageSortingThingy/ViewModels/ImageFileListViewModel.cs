@@ -83,13 +83,13 @@ public partial class ImageFileListViewModel : ViewModelBase
 
     private static bool LoadPreviouslyUsedDirectory()
     {
-        // Todo: This needs to be implemented
+        // This will be implemented in https://github.com/MichaelPoutanen/ImageSortingThingy/issues/2
         return false;
     }
 
     private static bool SavePreviouslyUsedDirectory(string directory)
     {
-        //TODO: This needs to be implemented
+        // This will be implemented in https://github.com/MichaelPoutanen/ImageSortingThingy/issues/2
         return false;
     }
 
