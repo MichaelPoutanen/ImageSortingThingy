@@ -6,15 +6,45 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ImageSortingThingy.Controls.ImageFileListView"
              x:DataType="viewModels:ImageFileListViewModel">
-    <Grid Grid.Row="2" Grid.Column="1" RowDefinitions="20,Auto,Auto,20" ColumnDefinitions="0.9*, 0.1*">
-        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Please select the path:" />
+    <Grid RowDefinitions="20,Auto,Auto,*,20" ColumnDefinitions="0.9*, Auto, Auto">
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Please select the path:" />
         <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding CurrentDirectory}" />
-        <Button Grid.Row="1" Grid.Column="1" Margin="5,0,0,0" 
-                Content="Select" 
+        <Button Grid.Row="1" Grid.Column="1" Margin="5,0,0,0"
+                HorizontalAlignment="Right"
+                Content="Select"
                 Command="{Binding SelectDirectoryCommand}" />
-        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" 
-               Content="{Binding InfoLabelText}" 
+        <Button Grid.Row="1" Grid.Column="2" Margin="5,0,0,0"
+                HorizontalAlignment="Left"
+                Content="Options" />
+        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+               Content="{Binding InfoLabelText}"
                Foreground="{Binding InfoLabelBrush}"
                IsVisible="{Binding IsInfoLabelVisible}" />
+
+        <ListBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+                 ItemsSource="{Binding ImagesInDirectory}"
+                 SelectedItem="{Binding ImagesInDirectorySelectedItem}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="NavajoWhite" BorderThickness="1" 
+                                CornerRadius="1" Padding="2">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="ID:" />
+                                <TextBlock Text=" " />
+                                <TextBlock Text="{Binding FileId}" />
+                            </StackPanel>
+                            <Image Margin="4" Height="200" Width="200" 
+                                   Source="{Binding AbsolutePath, Converter={StaticResource FilePathToBitmapConverter}}"/>
+                        </StackPanel>
+                        </Border>
+                        <!-- <StackPanel Orientation="Horizontal"> -->
+                        <!--     <TextBlock Text="{Binding FileId}" /> -->
+                        <!--     <TextBlock Text="{Binding ImageCreatedDateTime}"/> -->
+                        <!--     <TextBlock Text="{Binding FileName}" /> -->
+                        <!-- </StackPanel> -->
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>
