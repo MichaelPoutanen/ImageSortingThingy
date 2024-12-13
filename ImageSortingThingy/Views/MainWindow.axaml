@@ -3,6 +3,7 @@
         xmlns:vm="using:ImageSortingThingy.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:ImageSortingThingy.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ImageSortingThingy.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -12,9 +13,15 @@
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+    <Grid RowDefinitions="5,15,*,5" ColumnDefinitions="5,*,5">
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+            <TextBlock Text="Image Browsy test view" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </StackPanel>
+        <Grid Grid.Row="2" Grid.Column="1" RowDefinitions="*" ColumnDefinitions="*">
+            <controls:ImageFileListView DataContext="{Binding ImageFileListViewModel}"/>
+        </Grid>
+    </Grid>
 </Window>

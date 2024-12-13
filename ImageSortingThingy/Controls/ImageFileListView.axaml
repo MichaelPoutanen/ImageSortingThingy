@@ -1,0 +1,74 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:ImageSortingThingy.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ImageSortingThingy.Controls.ImageFileListView"
+             x:DataType="viewModels:ImageFileListViewModel">
+    <Grid RowDefinitions="20,Auto,Auto,*,20" ColumnDefinitions="0.9*, Auto, Auto">
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Please select the path:" />
+        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding CurrentDirectory}" />
+        <Button Grid.Row="1" Grid.Column="1" Margin="5,0,0,0"
+                HorizontalAlignment="Right"
+                Content="Select"
+                Command="{Binding SelectDirectoryCommand}" />
+        <Button Grid.Row="1" Grid.Column="2" Margin="5,0,0,0"
+                HorizontalAlignment="Left"
+                Content="Options" />
+        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+               Content="{Binding InfoLabelText}"
+               Foreground="{Binding InfoLabelBrush}"
+               IsVisible="{Binding IsInfoLabelVisible}" />
+
+        <ListBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+                 ItemsSource="{Binding ImagesInDirectory}"
+                 SelectedItem="{Binding ImagesInDirectorySelectedItem}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="NavajoWhite" BorderThickness="1"
+                            CornerRadius="1" Padding="2">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="ID:" />
+                                <TextBlock Text=" " />
+                                <TextBlock Text="{Binding FileId}" />
+                            </StackPanel>
+                            <Image Margin="4"
+                                   Source="{Binding AbsolutePath, Converter={StaticResource FilePathToBitmapConverter}}" />
+                            <Grid RowDefinitions="40,80,40,*" ColumnDefinitions="Auto,16,200,15,400">
+
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Text="File Name:" />
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding FileName}" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Custom Image Name:" />
+                                <TextBox Grid.Row="1" Grid.Column="2"
+                                         VerticalAlignment="Top"
+                                         HorizontalAlignment="Stretch"
+                                         MaxHeight="16"
+                                         Text="{Binding CustomName}" />
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"
+                                           Text="File created at:" />
+                                <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding FileCreationDateTime}" />
+
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Text="Image taken:" />
+                                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding ImageCreatedDateTime}" />
+
+                                <!-- Bug? Me dumb? This bottom TextBox, if the width (ColumnDefinition) is set to *, will only take up as little space as possible -->
+                                <TextBlock Grid.Row="0" Grid.Column="4" Text="Description:"
+                                           HorizontalAlignment="Center" />
+                                <TextBox Grid.Row="1" Grid.RowSpan="3" Grid.Column="4"
+                                         TextWrapping="Wrap"
+                                         Text="{Binding Description}" />
+                            </Grid>
+                        </StackPanel>
+
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>
