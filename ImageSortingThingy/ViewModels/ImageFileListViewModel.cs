@@ -21,8 +21,8 @@ namespace ImageSortingThingy.ViewModels;
 public partial class ImageFileListViewModel : ViewModelBase
 {
     private readonly ImageStorageService _imageStorageService;
-    
-    public ImageFileListViewModel(/*ImageStorageService imageStorageService*/)
+
+    public ImageFileListViewModel( /*ImageStorageService imageStorageService*/)
     {
         _imageStorageService = new ImageStorageService(new ImageToolDbContext());
         IsInfoLabelVisible = false;
@@ -39,11 +39,25 @@ public partial class ImageFileListViewModel : ViewModelBase
             InfoLabelText = "Loaded last sessions directory.";
         }
 
+        OpenOptionsWindowCommand = ReactiveCommand.CreateFromTask(OpenOptionsWindow);
         SelectDirectoryCommand = ReactiveCommand.CreateFromTask(SelectDirectory);
         ImagesInDirectorySelectedItem = new ImageFileListEntryModel();
     }
 
     #region Methods
+
+    private async Task OpenOptionsWindow()
+    {
+        try
+        {
+            OptionsWindowViewModel vm = new OptionsWindowViewModel();
+            OptionsWindowResponseModel result = await OpenOptionsDialogInteraction.Handle(vm);
+        }
+        catch (Exception ex)
+        {
+            Debugger.Break();
+        }
+    }
 
     private async Task SelectDirectory()
     {
@@ -100,8 +114,8 @@ public partial class ImageFileListViewModel : ViewModelBase
             {
                 Debugger.Break();
             }
-            
-            
+
+
             ImagesInDirectory.Add(s.ToImageFileListEntryModel(id));
             id++;
         }
@@ -148,9 +162,17 @@ public partial class ImageFileListViewModel : ViewModelBase
 
     public ICommand SelectDirectoryCommand { get; }
 
-    private readonly Interaction<string?, string?> _selectDirectoryInteraction = new Interaction<string?, string?>();
+    public ICommand OpenOptionsWindowCommand { get; }
+
+    private readonly Interaction<string?, string?> _selectDirectoryInteraction = new();
+
+    private readonly Interaction<OptionsWindowViewModel, OptionsWindowResponseModel> _openOptionsDialogInteraction =
+        new();
 
     public Interaction<string?, string?> SelectDirectoryInteraction => _selectDirectoryInteraction;
+
+    public Interaction<OptionsWindowViewModel, OptionsWindowResponseModel> OpenOptionsDialogInteraction =>
+        _openOptionsDialogInteraction;
 
     #endregion
 

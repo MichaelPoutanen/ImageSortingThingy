@@ -3,19 +3,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ImageSortingThingy.ViewModels"
+             xmlns:icons="https://github.com/projektanker/icons.avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ImageSortingThingy.Controls.ImageFileListView"
              x:DataType="viewModels:ImageFileListViewModel">
     <Grid RowDefinitions="20,Auto,Auto,*,20" ColumnDefinitions="0.9*, Auto, Auto">
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Please select the path:" />
         <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding CurrentDirectory}" />
+
         <Button Grid.Row="1" Grid.Column="1" Margin="5,0,0,0"
                 HorizontalAlignment="Right"
-                Content="Select"
-                Command="{Binding SelectDirectoryCommand}" />
+                Command="{Binding SelectDirectoryCommand}">
+            <StackPanel Orientation="Horizontal">
+                <icons:Icon Value="fa-solid fa-magnifying-glass" />
+                <TextBlock>Search</TextBlock>
+            </StackPanel>
+        </Button>
         <Button Grid.Row="1" Grid.Column="2" Margin="5,0,0,0"
                 HorizontalAlignment="Left"
-                Content="Options" />
+                Command="{Binding OpenOptionsWindowCommand}">
+            <StackPanel Orientation="Horizontal">
+                <icons:Icon Value="fa-solid fa-bars" />
+                <TextBlock>Options</TextBlock>
+            </StackPanel>
+
+        </Button>
         <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                Content="{Binding InfoLabelText}"
                Foreground="{Binding InfoLabelBrush}"
@@ -35,8 +47,8 @@
                                 <TextBlock Text="{Binding FileId}" />
                             </StackPanel>
                             <Image Margin="4"
-                                   Source="{Binding AbsolutePath, Converter={StaticResource FilePathToBitmapConverter}}" 
-                                   Stretch="Uniform"/>
+                                   Source="{Binding AbsolutePath, Converter={StaticResource FilePathToBitmapConverter}}"
+                                   Stretch="Uniform" />
                             <Grid RowDefinitions="40,80,40,*" ColumnDefinitions="Auto,16,200,15,400">
 
 
@@ -63,7 +75,7 @@
                                            HorizontalAlignment="Center" />
                                 <TextBox Grid.Row="1" Grid.RowSpan="3" Grid.Column="4"
                                          TextWrapping="Wrap"
-                                         Text="{Binding Description}"/>
+                                         Text="{Binding Description}" />
                             </Grid>
                         </StackPanel>
 
