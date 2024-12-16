@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
@@ -8,17 +9,22 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ImageSortingThingy.Database;
 using ImageSortingThingy.Extensions;
 using ImageSortingThingy.Helpers;
 using ImageSortingThingy.Models;
+using ImageSortingThingy.Services;
 using ReactiveUI;
 
 namespace ImageSortingThingy.ViewModels;
 
 public partial class ImageFileListViewModel : ViewModelBase
 {
-    public ImageFileListViewModel()
+    private readonly ImageStorageService _imageStorageService;
+    
+    public ImageFileListViewModel(/*ImageStorageService imageStorageService*/)
     {
+        _imageStorageService = new ImageStorageService(new ImageToolDbContext());
         IsInfoLabelVisible = false;
         _errorLevel = 0;
 
@@ -81,6 +87,21 @@ public partial class ImageFileListViewModel : ViewModelBase
         int id = 0;
         foreach (string s in files)
         {
+            ImageFileListEntryModel model = s.ToImageFileListEntryModel(id);
+
+            try
+            {
+                if (!_imageStorageService.DoesImageExistInDatabase(model.Crc32Hash!))
+                {
+                    _imageStorageService.AddImage(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debugger.Break();
+            }
+            
+            
             ImagesInDirectory.Add(s.ToImageFileListEntryModel(id));
             id++;
         }

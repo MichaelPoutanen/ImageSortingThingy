@@ -43,7 +43,9 @@ public class FilePathToBitmapConverter : IValueConverter
                     return resizedBitmap;
                 }
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception ex)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
                 //TODO: Log Ex
 #if DEBUG

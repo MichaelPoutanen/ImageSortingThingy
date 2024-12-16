@@ -35,7 +35,8 @@
                                 <TextBlock Text="{Binding FileId}" />
                             </StackPanel>
                             <Image Margin="4"
-                                   Source="{Binding AbsolutePath, Converter={StaticResource FilePathToBitmapConverter}}" />
+                                   Source="{Binding AbsolutePath, Converter={StaticResource FilePathToBitmapConverter}}" 
+                                   Stretch="Uniform"/>
                             <Grid RowDefinitions="40,80,40,*" ColumnDefinitions="Auto,16,200,15,400">
 
 
@@ -62,7 +63,7 @@
                                            HorizontalAlignment="Center" />
                                 <TextBox Grid.Row="1" Grid.RowSpan="3" Grid.Column="4"
                                          TextWrapping="Wrap"
-                                         Text="{Binding Description}" />
+                                         Text="{Binding Description}"/>
                             </Grid>
                         </StackPanel>
 

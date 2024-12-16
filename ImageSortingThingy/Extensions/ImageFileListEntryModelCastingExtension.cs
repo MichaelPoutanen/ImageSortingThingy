@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using ImageSortingThingy.Helpers;
 using ImageSortingThingy.Models;
 using MetadataExtractor;
 using MetadataExtractor.Formats.Exif;
@@ -43,7 +44,8 @@ public static class ImageFileListEntryModelCastingExtension
             CustomName = string.Empty,
             Description = string.Empty,
             FileCreationDateTime = File.GetCreationTimeUtc(filePath),
-            ImageCreatedDateTime = imageCreatedDateTime
+            ImageCreatedDateTime = imageCreatedDateTime,
+            Crc32Hash = HashHelper.ComputeCrc32Hash(filePath)
         };
     }
 }
