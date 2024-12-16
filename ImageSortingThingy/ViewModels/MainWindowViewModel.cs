@@ -1,9 +1,13 @@
-﻿namespace ImageSortingThingy.ViewModels;
+﻿using ImageSortingThingy.Services;
+
+namespace ImageSortingThingy.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    public MainWindowViewModel()
+
+    public MainWindowViewModel( )
     {
+        
     }
 
     public ImageFileListViewModel ImageFileListViewModel { get; } = new();

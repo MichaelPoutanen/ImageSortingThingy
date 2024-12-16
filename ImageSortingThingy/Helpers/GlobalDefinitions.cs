@@ -8,4 +8,12 @@ public static class GlobalDefinitions
     public static readonly string ThumbnailStoragePath =$"{Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)}/exclude_imageSortingThingy/";
     public static readonly int MaxThumbnailSizeX = 512;
     public static readonly int MaxThumbnailSizeY = 512;
+
+    public enum GeneralErrorCodes
+    {
+        NoError,
+        ImageAlreadyExists,
+        ImageNotFound,
+        ImageFileDefective
+    }
 }

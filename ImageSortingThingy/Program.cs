@@ -20,4 +20,6 @@ sealed class Program
             .WithInterFont()
             .LogToTrace()
             .UseReactiveUI();
+    
+    
 }
