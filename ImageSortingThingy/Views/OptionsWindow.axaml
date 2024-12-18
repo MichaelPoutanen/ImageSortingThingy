@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonia="https://github.com/projektanker/icons.avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ImageSortingThingy.Views.OptionsWindow"
         Title="OptionsWindow"
@@ -17,9 +18,50 @@
                     MaterialOpacity="0.65" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
-        
-        <Panel Margin="40">
-            <TextBlock>This window is not yet implemented. :(</TextBlock>
-        </Panel>
+        <DockPanel Margin="40">
+            <StackPanel DockPanel.Dock="Top">
+                <CheckBox FontSize="18">Always save added images in selected folder</CheckBox>
+                <CheckBox FontSize="18">Automatically load saved data at startup</CheckBox>
+                <Separator Margin="10" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" FontSize="18">Database Provider:</TextBlock>
+                    <ComboBox IsEnabled="False" FontSize="18" SelectedIndex="0" Margin="10 0 0 0">
+                        <ComboBoxItem>SQLite</ComboBoxItem>
+                    </ComboBox>
+                    <Button Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            FontSize="18"
+                            IsEnabled="False">
+                        <StackPanel Orientation="Horizontal">
+                            <avalonia:Icon Value="fa-solid fa-database" />
+                            <TextBlock>Options</TextBlock>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+                <TextBlock FontStyle="Italic">Currently, there is only SQLite implemented</TextBlock>
+                <Separator Margin="10" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" FontSize="18">Thumbnail storage path:</TextBlock>
+                    <TextBlock Foreground="Aqua">
+                        <ToolTip.Tip>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock FontSize="18" FontWeight="Bold">Explanation:</TextBlock>
+                                <TextBlock>This tool automatically generates Thumbnail images of up to 512x512, which are used in the List to display a preview of the image."</TextBlock>
+                                <TextBlock Margin="0 8 0 0">This is done to reduce the necessary resources and allow a lot of images to be displayed with very little resource usage.</TextBlock>
+                                <TextBlock Margin="0 8 0 0">Those thumbnails are stored in a separate folder, which you can set or change here.</TextBlock>
+                            </StackPanel>
+                        </ToolTip.Tip>
+                        ?
+                    </TextBlock>
+                    <TextBox FontSize="18" Margin="10 0 0 0" Width="400" MaxWidth="400"
+                             Watermark="/path/to/thumbnail/storage" />
+                </StackPanel>
+
+            </StackPanel>
+        </DockPanel>
+
+        <!-- <Panel Margin="40"> -->
+        <!--     <TextBlock>This window is not yet implemented. :(</TextBlock> -->
+        <!-- </Panel> -->
     </Panel>
 </Window>
