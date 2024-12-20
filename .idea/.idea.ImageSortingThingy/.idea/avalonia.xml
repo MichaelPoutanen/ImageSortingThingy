@@ -7,6 +7,7 @@
         <entry key="ImageSortingThingy/Controls/ImageFileListView.axaml" value="ImageSortingThingy/ImageSortingThingy.csproj" />
         <entry key="ImageSortingThingy/Controls/ImageFileListViewControl.axaml" value="ImageSortingThingy/ImageSortingThingy.csproj" />
         <entry key="ImageSortingThingy/Views/MainWindow.axaml" value="ImageSortingThingy/ImageSortingThingy.csproj" />
+        <entry key="ImageSortingThingy/Views/OptionsWindow.axaml" value="ImageSortingThingy/ImageSortingThingy.csproj" />
       </map>
     </option>
   </component>

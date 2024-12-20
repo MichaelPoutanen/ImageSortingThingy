@@ -14,7 +14,7 @@ public class ImageStorageService
     public ImageStorageService(ImageToolDbContext dbContext)
     {
         _dbContext = dbContext;
-        
+
         _dbContext.Database.Migrate();
     }
 

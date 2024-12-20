@@ -1,8 +1,3 @@
-using ImageSortingThingy.Database;
-using ImageSortingThingy.Services;
-using ImageSortingThingy.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace ImageSortingThingy.Extensions;
 
 public static class ServiceCollectionExtensions

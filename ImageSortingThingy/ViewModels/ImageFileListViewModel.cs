@@ -21,13 +21,14 @@ namespace ImageSortingThingy.ViewModels;
 public partial class ImageFileListViewModel : ViewModelBase
 {
     private readonly ImageStorageService _imageStorageService;
-    
-    public ImageFileListViewModel(/*ImageStorageService imageStorageService*/)
+
+    public ImageFileListViewModel( /*ImageStorageService imageStorageService*/)
     {
         _imageStorageService = new ImageStorageService(new ImageToolDbContext());
         IsInfoLabelVisible = false;
         _errorLevel = 0;
-
+        bool autoloadImages = false;
+        
         if (!LoadPreviouslyUsedDirectory())
         {
             CurrentDirectory = GetStartingDirectory();
@@ -35,15 +36,34 @@ public partial class ImageFileListViewModel : ViewModelBase
         }
         else
         {
-            //directory would probably be set in that method, or something
             InfoLabelText = "Loaded last sessions directory.";
+            if (SettingsHelper.AutomaticallyLoadDataOnStartup)
+                autoloadImages = true;
         }
 
+        OpenOptionsWindowCommand = ReactiveCommand.CreateFromTask(OpenOptionsWindow);
         SelectDirectoryCommand = ReactiveCommand.CreateFromTask(SelectDirectory);
         ImagesInDirectorySelectedItem = new ImageFileListEntryModel();
+        
+        if(autoloadImages)
+            LoadImages();
     }
 
     #region Methods
+
+    private async Task OpenOptionsWindow()
+    {
+        try
+        {
+            OptionsWindowViewModel vm = new OptionsWindowViewModel();
+            OptionsWindowResponseModel result = await OpenOptionsDialogInteraction.Handle(vm);
+            SettingsHelper.SetConfigValues(result);
+        }
+        catch (Exception ex)
+        {
+            Debugger.Break();
+        }
+    }
 
     private async Task SelectDirectory()
     {
@@ -100,23 +120,42 @@ public partial class ImageFileListViewModel : ViewModelBase
             {
                 Debugger.Break();
             }
-            
-            
+
+
             ImagesInDirectory.Add(s.ToImageFileListEntryModel(id));
             id++;
         }
     }
 
-    private static bool LoadPreviouslyUsedDirectory()
+    private bool LoadPreviouslyUsedDirectory()
     {
-        // This will be implemented in https://github.com/MichaelPoutanen/ImageSortingThingy/issues/2
+        string storedValue = SettingsHelper.WorkingDirectory;
+
+        if (!string.IsNullOrWhiteSpace(storedValue))
+        {
+            CurrentDirectory = storedValue;
+            return true;
+        }
+
         return false;
     }
 
     private static bool SavePreviouslyUsedDirectory(string directory)
     {
-        // This will be implemented in https://github.com/MichaelPoutanen/ImageSortingThingy/issues/2
-        return false;
+        try
+        {
+            SettingsHelper.WorkingDirectory = directory;
+            return true;
+        }
+        catch (Exception e)
+        {
+#if DEBUG
+            Console.WriteLine(e);
+            Debugger.Break();
+            throw;
+#endif
+            return false;
+        }
     }
 
     private static string GetStartingDirectory()
@@ -148,9 +187,17 @@ public partial class ImageFileListViewModel : ViewModelBase
 
     public ICommand SelectDirectoryCommand { get; }
 
-    private readonly Interaction<string?, string?> _selectDirectoryInteraction = new Interaction<string?, string?>();
+    public ICommand OpenOptionsWindowCommand { get; }
+
+    private readonly Interaction<string?, string?> _selectDirectoryInteraction = new();
+
+    private readonly Interaction<OptionsWindowViewModel, OptionsWindowResponseModel> _openOptionsDialogInteraction =
+        new();
 
     public Interaction<string?, string?> SelectDirectoryInteraction => _selectDirectoryInteraction;
+
+    public Interaction<OptionsWindowViewModel, OptionsWindowResponseModel> OpenOptionsDialogInteraction =>
+        _openOptionsDialogInteraction;
 
     #endregion
 

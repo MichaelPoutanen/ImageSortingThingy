@@ -1,5 +1,6 @@
 using System;
 using System.Security.Cryptography;
+
 // ReSharper disable InconsistentNaming
 
 namespace ImageSortingThingy.Helpers;

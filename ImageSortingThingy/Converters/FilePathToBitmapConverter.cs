@@ -34,7 +34,8 @@ public class FilePathToBitmapConverter : IValueConverter
                     Bitmap bitmap = new Bitmap(filePath);
 
                     // Resize to a smaller size (e.g., 100x100 pixels)
-                    Bitmap resizedBitmap = bitmap.CreateResizedBitmap(GlobalDefinitions.MaxThumbnailSizeX, GlobalDefinitions.MaxThumbnailSizeY);
+                    Bitmap resizedBitmap = bitmap.CreateResizedBitmap(GlobalDefinitions.MaxThumbnailSizeX,
+                        GlobalDefinitions.MaxThumbnailSizeY);
 
                     // Save the resized bitmap to the thumbnail directory
                     SaveBitmapToFile(resizedBitmap, thumbnailPath);
