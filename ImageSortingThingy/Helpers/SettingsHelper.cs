@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using System.Diagnostics;
+using ImageSortingThingy.Models;
 
 // ReSharper disable InvertIf
 
@@ -9,8 +10,8 @@ namespace ImageSortingThingy.Helpers;
 public static class SettingsHelper
 {
     private static readonly Configuration Config =
-        ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
-
+        ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+    
     public static bool AlwaysSaveAddedImages
     {
         get => GetSetting(nameof(AlwaysSaveAddedImages), true);
@@ -30,6 +31,18 @@ public static class SettingsHelper
     }
 
     #region Methods
+    
+    public static string GetConfigurationFilePath()
+    {
+        return Config.FilePath;
+    }
+
+    public static void SetConfigValues(OptionsWindowResponseModel responseModel)
+    {
+        AlwaysSaveAddedImages = responseModel.AlwaysSaveAddedImages;
+        AutomaticallyLoadDataOnStartup = responseModel.AutomaticallyLoadDataOnStartup;
+        ThumbnailStoragePath = responseModel.ThumbnailStoragePath;
+    }
 
     private static T GetSetting<T>(string key, T defaultValue)
     {

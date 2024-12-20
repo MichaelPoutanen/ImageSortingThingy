@@ -52,6 +52,7 @@ public partial class ImageFileListViewModel : ViewModelBase
         {
             OptionsWindowViewModel vm = new OptionsWindowViewModel();
             OptionsWindowResponseModel result = await OpenOptionsDialogInteraction.Handle(vm);
+            SettingsHelper.SetConfigValues(result);
         }
         catch (Exception ex)
         {
