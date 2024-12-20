@@ -21,7 +21,7 @@
             <TextBlock Text="Image Browsy test view" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </StackPanel>
         <Grid Grid.Row="2" Grid.Column="1" RowDefinitions="*" ColumnDefinitions="*">
-            <controls:ImageFileListView DataContext="{Binding ImageFileListViewModel}"/>
+            <controls:ImageFileListView DataContext="{Binding ImageFileListViewModel}" />
         </Grid>
     </Grid>
 </Window>

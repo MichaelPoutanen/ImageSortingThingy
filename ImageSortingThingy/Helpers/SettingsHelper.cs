@@ -11,7 +11,7 @@ public static class SettingsHelper
 {
     private static readonly Configuration Config =
         ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-    
+
     public static bool AlwaysSaveAddedImages
     {
         get => GetSetting(nameof(AlwaysSaveAddedImages), true);
@@ -31,7 +31,7 @@ public static class SettingsHelper
     }
 
     #region Methods
-    
+
     public static string GetConfigurationFilePath()
     {
         return Config.FilePath;

@@ -15,10 +15,11 @@ public static class ImageFileListEntryModelCastingExtension
 {
     public static ImageFileListEntryModel ToImageFileListEntryModel(this string filePath, int fileId)
     {
-        IReadOnlyList<Directory> metaDataDirectories=ImageMetadataReader.ReadMetadata(filePath);
-        ExifSubIfdDirectory? pictureTakenExifDirectory=metaDataDirectories.OfType<ExifSubIfdDirectory>().FirstOrDefault();
+        IReadOnlyList<Directory> metaDataDirectories = ImageMetadataReader.ReadMetadata(filePath);
+        ExifSubIfdDirectory? pictureTakenExifDirectory =
+            metaDataDirectories.OfType<ExifSubIfdDirectory>().FirstOrDefault();
 
-        
+
         // This chonky boy sets the imageCreatedDateTime to the EXIF date specified in the image file, if it can parse it.
         // If the parsing works, it creates a temporary DateTime variable called tmp and returns it, otherwise it gets set
         // to default(DateTime).
@@ -34,7 +35,7 @@ public static class ImageFileListEntryModelCastingExtension
                 out DateTime tmp2)
                 ? tmp2
                 : default;
-        
+
 
         return new ImageFileListEntryModel
         {

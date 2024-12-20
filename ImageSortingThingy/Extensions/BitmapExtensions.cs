@@ -10,14 +10,14 @@ public static class BitmapExtensions
     {
         int originalWidth = source.PixelSize.Width;
         int originalHeight = source.PixelSize.Height;
-        
+
         double widthRatio = (double)maxWidth / originalWidth;
         double heightRatio = (double)maxHeight / originalHeight;
-        double scaleFactor = Math.Min(widthRatio, heightRatio); 
-        
+        double scaleFactor = Math.Min(widthRatio, heightRatio);
+
         int newWidth = (int)(originalWidth * scaleFactor);
         int newHeight = (int)(originalHeight * scaleFactor);
-        
+
         return source.CreateScaledBitmap(new PixelSize(newWidth, newHeight));
     }
 }

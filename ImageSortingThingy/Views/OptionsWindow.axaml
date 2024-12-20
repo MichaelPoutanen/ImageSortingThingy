@@ -56,8 +56,8 @@
                         ?
                     </TextBlock>
                     <TextBox FontSize="18" Margin="10 0 0 0" Width="400" MaxWidth="400"
-                             Watermark="/path/to/thumbnail/storage" 
-                             Text="{Binding ThumbnailStoragePath}"/>
+                             Watermark="/path/to/thumbnail/storage"
+                             Text="{Binding ThumbnailStoragePath}" />
                 </StackPanel>
 
             </StackPanel>

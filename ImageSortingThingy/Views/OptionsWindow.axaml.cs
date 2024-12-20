@@ -1,7 +1,6 @@
 using Avalonia.ReactiveUI;
 using ImageSortingThingy.Models;
 using ImageSortingThingy.ViewModels;
-using ReactiveUI;
 
 namespace ImageSortingThingy.Views;
 
@@ -10,7 +9,7 @@ public partial class OptionsWindow : ReactiveWindow<OptionsWindowViewModel>
     public OptionsWindow()
     {
         InitializeComponent();
-        
+
         // this.WhenActivated(action => action(ViewModel!.SaveAndCloseCommand.Subscribe(Close)));
         DataContextChanged += (s, e) =>
         {
@@ -20,13 +19,13 @@ public partial class OptionsWindow : ReactiveWindow<OptionsWindowViewModel>
             }
         };
     }
-    
+
     #region Methods
-    
+
     private void OnRequestClose(OptionsWindowResponseModel response)
     {
         Close(response);
     }
-    
+
     #endregion
 }
