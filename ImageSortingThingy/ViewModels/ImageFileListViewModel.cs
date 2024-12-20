@@ -27,7 +27,8 @@ public partial class ImageFileListViewModel : ViewModelBase
         _imageStorageService = new ImageStorageService(new ImageToolDbContext());
         IsInfoLabelVisible = false;
         _errorLevel = 0;
-
+        bool autoloadImages = false;
+        
         if (!LoadPreviouslyUsedDirectory())
         {
             CurrentDirectory = GetStartingDirectory();
@@ -35,13 +36,17 @@ public partial class ImageFileListViewModel : ViewModelBase
         }
         else
         {
-            //directory would probably be set in that method, or something
             InfoLabelText = "Loaded last sessions directory.";
+            if (SettingsHelper.AutomaticallyLoadDataOnStartup)
+                autoloadImages = true;
         }
 
         OpenOptionsWindowCommand = ReactiveCommand.CreateFromTask(OpenOptionsWindow);
         SelectDirectoryCommand = ReactiveCommand.CreateFromTask(SelectDirectory);
         ImagesInDirectorySelectedItem = new ImageFileListEntryModel();
+        
+        if(autoloadImages)
+            LoadImages();
     }
 
     #region Methods
@@ -122,16 +127,35 @@ public partial class ImageFileListViewModel : ViewModelBase
         }
     }
 
-    private static bool LoadPreviouslyUsedDirectory()
+    private bool LoadPreviouslyUsedDirectory()
     {
-        // This will be implemented in https://github.com/MichaelPoutanen/ImageSortingThingy/issues/2
+        string storedValue = SettingsHelper.WorkingDirectory;
+
+        if (!string.IsNullOrWhiteSpace(storedValue))
+        {
+            CurrentDirectory = storedValue;
+            return true;
+        }
+
         return false;
     }
 
     private static bool SavePreviouslyUsedDirectory(string directory)
     {
-        // This will be implemented in https://github.com/MichaelPoutanen/ImageSortingThingy/issues/2
-        return false;
+        try
+        {
+            SettingsHelper.WorkingDirectory = directory;
+            return true;
+        }
+        catch (Exception e)
+        {
+#if DEBUG
+            Console.WriteLine(e);
+            Debugger.Break();
+            throw;
+#endif
+            return false;
+        }
     }
 
     private static string GetStartingDirectory()

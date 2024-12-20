@@ -29,6 +29,12 @@ public static class SettingsHelper
         get => GetSetting(nameof(ThumbnailStoragePath), GlobalDefinitions.ThumbnailStoragePath);
         set => SetSetting(nameof(ThumbnailStoragePath), value);
     }
+    
+    public static string WorkingDirectory
+    {
+        get => GetSetting(nameof(WorkingDirectory), string.Empty);
+        set => SetSetting(nameof(WorkingDirectory), value);
+    }
 
     #region Methods
 
