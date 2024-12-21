@@ -61,7 +61,12 @@ public partial class ImageFileListViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
+#if DEBUG
             Debugger.Break();
+#endif
+            await MessageBoxHelper.ErrorExceptionMessageBox("Exception in ImageFileListViewModel:OpenOptionsWindow",
+                    $"An exception occured while trying to open the options menu.\nError:\n\n{ex}")
+                .ShowAsync();
         }
     }
 
@@ -140,13 +145,20 @@ public partial class ImageFileListViewModel : ViewModelBase
             }
             catch (Exception ex)
             {
+#if DEBUG
                 Debugger.Break();
+#endif
+                await MessageBoxHelper.ErrorExceptionMessageBox("Exception in ImageFileListViewModel:LoadImages",
+                        $"An exception occured while trying to load images.\nError:\n\n{ex}")
+                    .ShowAsync();
             }
 
 
             ImagesInDirectory.Add(s.ToImageFileListEntryModel(id));
             id++;
         }
+
+        await MessageBoxHelper.StandardInfoMessageBox("Successfully loaded images", $"Loaded {id} images.").ShowAsync();
     }
 
     private bool LoadPreviouslyUsedDirectory()
@@ -185,7 +197,7 @@ public partial class ImageFileListViewModel : ViewModelBase
 
     private static string GetStartingDirectory()
     {
-        string folder = string.Empty;
+        string folder;
 
         if (!string.IsNullOrWhiteSpace(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)))
             folder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
@@ -236,6 +248,9 @@ public partial class ImageFileListViewModel : ViewModelBase
         set => SetProperty(ref _imagesInDirectory, value);
     }
 
+    // Used in the view, thus public; Naming is like that because it will generate the uppercase property
+    // ReSharper disable once InconsistentNaming
+    // ReSharper disable once MemberCanBePrivate.Global
     [ObservableProperty] public ImageFileListEntryModel _imagesInDirectorySelectedItem;
 
     private IBrush _infoLabelBrush = Brushes.Transparent;
