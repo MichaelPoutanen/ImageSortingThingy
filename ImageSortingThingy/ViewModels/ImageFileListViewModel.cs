@@ -43,7 +43,7 @@ public partial class ImageFileListViewModel : ViewModelBase
 
         OpenOptionsWindowCommand = ReactiveCommand.CreateFromTask(OpenOptionsWindow);
         SelectDirectoryCommand = ReactiveCommand.CreateFromTask(SelectDirectory);
-        ImagesInDirectorySelectedItem = new ImageFileListEntryModel();
+        //ImagesInDirectorySelectedItem = new ImageFileListEntryModel();
 
         if (autoloadImages)
             LoadImages();

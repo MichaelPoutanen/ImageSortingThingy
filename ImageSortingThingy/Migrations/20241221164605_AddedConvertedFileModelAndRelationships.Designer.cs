@@ -3,6 +3,7 @@ using System;
 using ImageSortingThingy.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImageSortingThingy.Migrations
 {
     [DbContext(typeof(ImageToolDbContext))]
-    partial class ImageToolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241221164605_AddedConvertedFileModelAndRelationships")]
+    partial class AddedConvertedFileModelAndRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
