@@ -16,6 +16,12 @@ public static class SearchImageFiles
         return FilterFilesInFolder(directory, ["jpg", "jpeg", "png", "gif", "tiff"], true);
     }
 
+    public static string[] GetAppleImageFiles(string directory)
+    {
+        return FilterFilesInFolder(directory, ["heic"], true);
+
+    }
+
     /// <summary>
     /// Returns image files from the given directory only
     /// </summary>

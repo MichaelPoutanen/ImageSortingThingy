@@ -28,7 +28,7 @@ public partial class ImageFileListViewModel : ViewModelBase
         IsInfoLabelVisible = false;
         _errorLevel = 0;
         bool autoloadImages = false;
-        
+
         if (!LoadPreviouslyUsedDirectory())
         {
             CurrentDirectory = GetStartingDirectory();
@@ -44,8 +44,8 @@ public partial class ImageFileListViewModel : ViewModelBase
         OpenOptionsWindowCommand = ReactiveCommand.CreateFromTask(OpenOptionsWindow);
         SelectDirectoryCommand = ReactiveCommand.CreateFromTask(SelectDirectory);
         ImagesInDirectorySelectedItem = new ImageFileListEntryModel();
-        
-        if(autoloadImages)
+
+        if (autoloadImages)
             LoadImages();
     }
 
@@ -101,10 +101,32 @@ public partial class ImageFileListViewModel : ViewModelBase
         }
     }
 
-    private void LoadImages()
+    private async void LoadImages()
     {
         List<string> files = SearchImageFiles.GetAllImageFiles(CurrentDirectory).ToList();
+        List<string> heicFiles = SearchImageFiles.GetAppleImageFiles(CurrentDirectory).ToList();
         int id = 0;
+
+        if (heicFiles.Count > 0)
+        {
+            //Todo: We should track the converted heic files via Database, CRCing the heic file to prevent converting 
+            //      the same files over and over again
+            string answer = await MessageBoxHelper.StandardYesNoMessageBox("Apple Image files found",
+                "Apple image files (heic) have been found.\n They are normally not supported, but we can" +
+                "convert them to jpg Images automatically.\n"
+                + "(The Original files will not be touched!\n" +
+                "Do you want to convert them to jpg?").ShowAsync();
+
+            if (answer.ToLower().Equals("yes"))
+            {
+                foreach (string heicFile in heicFiles)
+                {
+                    //Place them in the same directory, just with .jpg instead of .heic at the end
+                    ImageFormatConverter.ConvertHeicToJpg(heicFile, heicFile.Replace(".heic", ".jpg"));
+                }
+            }
+        }
+
         foreach (string s in files)
         {
             ImageFileListEntryModel model = s.ToImageFileListEntryModel(id);
@@ -154,7 +176,10 @@ public partial class ImageFileListViewModel : ViewModelBase
             Debugger.Break();
             throw;
 #endif
+            //The warning here has been disabled because the code is reachable in Release mode.
+#pragma warning disable CS0162 // Unreachable code detected
             return false;
+#pragma warning restore CS0162 // Unreachable code detected
         }
     }
 
